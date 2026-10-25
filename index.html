@@ -350,6 +350,20 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
 @media (min-width:1400px){
   main,.hwrap{max-width:1320px;}
 }
+/* ---- touch devices: 16px inputs (no iOS zoom-on-focus) + big tap targets in ANY orientation ---- */
+@media (pointer:coarse){
+  input[type=text],input[type=date],input[type=number],textarea,select,.search input{font-size:16px !important;}
+  .btn{min-height:44px;}
+  .btn.sm{min-height:40px;}
+  .tab{min-height:44px;}
+}
+/* ---- short viewports (e.g. a phone held sideways): keep dialogs height-capped and scrollable ---- */
+@media (max-height:600px){
+  .overlay{align-items:flex-start;}
+  .modal{max-height:94vh;display:flex;flex-direction:column;}
+  .mbody{overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .mfoot{padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));}
+}
 
 /* ---------- Hallownest theme (original, Hollow Knight-inspired) ---------- */
 :root[data-theme="hallownest"]{
