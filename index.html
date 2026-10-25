@@ -77,7 +77,7 @@ header{
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border);
 }
-.hwrap{max-width:1140px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.hwrap{max-width:1180px;margin:0 auto;padding:14px clamp(14px,3vw,22px);display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
 .brand{display:flex;align-items:baseline;gap:10px;font-family:var(--mono);}
 .brand .mark{font-weight:700;font-size:20px;letter-spacing:-.5px;color:var(--text);}
 .brand .mark b{color:var(--accent);}
@@ -102,7 +102,7 @@ button{font-family:inherit;cursor:pointer;}
 .btn.danger:hover{border-color:var(--danger);background:var(--danger-soft);}
 
 /* ---------- layout ---------- */
-main{max-width:1140px;margin:0 auto;padding:22px 20px 80px;}
+main{max-width:1180px;margin:0 auto;padding:clamp(16px,2.4vw,24px) clamp(14px,3vw,22px) 48px;}
 
 /* hero */
 .hero{
@@ -112,7 +112,7 @@ main{max-width:1140px;margin:0 auto;padding:22px 20px 80px;}
 }
 @media (max-width:760px){.hero{grid-template-columns:1fr;}}
 .progwrap .ptop{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px;}
-.progwrap .big{font-family:var(--mono);font-size:44px;font-weight:700;line-height:1;letter-spacing:-2px;}
+.progwrap .big{font-family:var(--mono);font-size:clamp(32px,7vw,46px);font-weight:700;line-height:1;letter-spacing:-2px;}
 .progwrap .big b{color:var(--accent);}
 .progwrap .big .slash{color:var(--faint);font-weight:400;}
 .goalbtn{font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--panel-2);border:1px solid var(--border);padding:4px 9px;border-radius:7px;}
@@ -132,7 +132,7 @@ main{max-width:1140px;margin:0 auto;padding:22px 20px 80px;}
 .legend b{color:var(--text);font-family:var(--mono);}
 
 /* stat tiles */
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px;}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px;}
 .tile{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow);}
 .tile .k{font-size:11px;letter-spacing:.5px;color:var(--faint);font-weight:600;font-family:var(--mono);text-transform:uppercase;}
 .tile .v{font-family:var(--mono);font-size:26px;font-weight:700;margin-top:6px;letter-spacing:-1px;}
@@ -155,7 +155,7 @@ select:focus{border-color:var(--accent);}
 .activefilter button{background:none;border:none;color:inherit;font-weight:700;padding:0 2px;}
 
 /* box cards */
-.boxgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;}
+.boxgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;}
 .boxcard{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:11px;position:relative;overflow:hidden;}
 .boxcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--border-2);}
 .boxcard.s-rooted::before{background:var(--ok);}
@@ -307,8 +307,9 @@ select:focus{border-color:var(--accent);}
 button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
 
 /* ---- mobile ---- */
+/* ---- tablet and below ---- */
 @media (max-width:760px){
-  main{padding:16px 14px 90px;}
+  main{padding-bottom:96px;} /* clearance for the floating add button */
   /* 16px form controls stop iOS Safari from zooming on focus */
   input[type=text],input[type=date],input[type=number],textarea,select,.search input{font-size:16px !important;}
   /* comfortable tap targets */
@@ -320,6 +321,11 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
   /* show the floating add button, hide the header one */
   .fab{display:flex;}
   #addBtn{display:none;}
+  /* filters fill the width in a tidy grid instead of ragged wrapping */
+  .search{flex:1 1 100%;}
+  .filterbar select{flex:1 1 calc(50% - 5px);min-width:0;}
+  /* pattern bars reclaim room from the label column */
+  .freq .frow{grid-template-columns:104px 1fr 26px;gap:8px;}
   /* bottom-sheet modals: slide up from the bottom, full width, roomy */
   .overlay{align-items:flex-end;padding:0;}
   .modal{max-width:100%;border-radius:18px 18px 0 0;max-height:92vh;display:flex;flex-direction:column;animation:sheetUp .22s ease;}
@@ -327,9 +333,23 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
   .mbody{overflow-y:auto;-webkit-overflow-scrolling:touch;}
   .mfoot{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));}
   .hero{padding:18px;}
-  .progwrap .big{font-size:38px;}
 }
 @keyframes sheetUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+
+/* ---- small phones ---- */
+@media (max-width:460px){
+  .hwrap{gap:10px;}
+  /* header actions drop to their own full-width row, split evenly */
+  .htools{width:100%;margin-left:0;justify-content:space-between;gap:6px;}
+  .htools .btn.sm{flex:1 1 auto;justify-content:center;padding:9px 6px;}
+  .tiles{grid-template-columns:1fr 1fr;}
+  .filterbar select{flex:1 1 100%;}
+  .mbody{padding:16px;}
+}
+/* ---- large desktops: a touch more breathing room ---- */
+@media (min-width:1400px){
+  main,.hwrap{max-width:1320px;}
+}
 
 /* ---------- Hallownest theme (original, Hollow Knight-inspired) ---------- */
 :root[data-theme="hallownest"]{
